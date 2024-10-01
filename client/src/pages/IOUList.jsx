@@ -1,25 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import List from "../components/List";
 
 const IOUList = () => {
   const [date, setDate] = useState(new Date());
-  const [number, setNumber] = useState();
+  const [sku, setSku] = useState();
   const [name, setName] = useState("");
-  const [submit, setSubmit] = useState(false)
+  const [ious, setIOUs] = useState([]);
+
+  useEffect(() => {
+    const fetchIOUs = async () => {
+      const response = await fetch("http://localhost:5003/api/ious");
+      const data = await response.json();
+      console.log(data)
+
+      setIOUs(data);
+    };
+    fetchIOUs();
+  }, []);
 
   const handleSubmit = async (e) => {
+    console.log(date, sku, name)
     e.preventDefault();
 
-    const response = await fetch("http://localhost:5001/api/ious", {
+    const response = await fetch("http://localhost:5003/api/ious", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ number }),
+      body: JSON.stringify({ date, sku, name }),
     });
     if (response.ok) {
-      alert(`IOU was successful.`);
-      setSubmit(!submitted)
+      const newIOU = await response.json()
+      setIOUs((prevIOUs) => [...prevIOUs, newIOU])
     } else {
       alert("IOU failed. Please try again.");
     }
@@ -45,8 +57,8 @@ const IOUList = () => {
           <input
             type="number"
             id="sku"
-            value={number}
-            onChange={(e) => setNumber(e.target.value)}
+            value={sku}
+            onChange={(e) => setSku(e.target.value)}
             required
           />
         </div>
@@ -62,7 +74,7 @@ const IOUList = () => {
         </div>
         <button type="submit">Submit</button>
       </form>
-      <List submit={submit}/>
+      <List ious={ious} setIOUs={setIOUs} />
     </div>
   );
 };
