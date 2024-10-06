@@ -25,7 +25,7 @@ const List = ({ ious, setIOUs }) => {
     e.preventDefault()
     console.log(paid)
 
-    const response = await fetch("http://localhost:5003/api/ious", {
+    const response = await fetch("http://localhost:5003/api/ious/delete", {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",

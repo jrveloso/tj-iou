@@ -1,77 +1,46 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
+const passport = require("./config/passport");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
+const logger = require("morgan");
+const connectDB = require('./config/database')
+const iouRoutes = require('./routes/iouRoutes')
+const authRoutes = require('./routes/authRoutes')
+
 require("dotenv").config();
 
+connectDB()
+
 const app = express();
-app.use(cors());
-app.use(express.json());
-
-mongoose
-  .connect(process.env.MONGODB_PASSWORD)
-  .then(() => {
-    console.log("Connected successfully");
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
   })
-  .catch((error) => {
-    console.error("Error", error);
-  });
+);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-const IOUSchema = new mongoose.Schema({
-  date: { type: Date, required: true },
-  sku: { type: Number, required: true },
-  name: { type: String, required: true },
-});
+app.use(
+  session({
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGODB_PASSWORD,
+      collectionName: "sessions",
+    }),
+  })
+);
 
-const IOU = mongoose.model("IOU", IOUSchema);
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.get("/api/ious", async (req, res) => {
-  try {
-    const ious = await IOU.find().sort({ date: 1 });
-    res.json(ious);
-  } catch (error) {
-    console.error("Error fetching bookings:", error);
-    res.status(500).json({ message: "Error fetching ious" });
-  }
-});
+app.use(logger("dev"));
 
-app.post("/api/ious", async (req, res) => {
-  try {
-    console.log(req.body);
-    const { date, name, sku } = req.body;
-    const newIOU = new IOU({ date, sku, name });
-    await newIOU.save();
-    res.json(newIOU);
-  } catch (error) {
-    console.error("Error fetching bookings:", error);
-    res.status(500).json({ message: "Error fetching ious" });
-  }
-});
-
-app.delete("/api/ious", async (req, res) => {
-  const { ids } = req.body;
-  console.log(ids)
-
-  try {
-    const objectIds = ids.map(id => {
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-          throw new Error(`Invalid ID: ${id}`);
-        }
-        return new mongoose.Types.ObjectId(id);
-      });
-      console.log(objectIds)
-
-    const result = await IOU.deleteMany({ _id: { $in: objectIds} });
-
-    if (result.deletedCount === 0) {
-      return res.status(404).send("No IOUs found to delete.");
-    }
-
-    res.status(200).send(`${result.deletedCount} IOUs deleted successfully.`);
-  } catch (err) {
-    console.error("Error deleting IOUs:", err.message);
-    res.status(500).json({ message: "Failed to delete IOUs.", error: err.message });
-  }
-});
+app.use('/api/ious', iouRoutes)
+app.use('/api/users', authRoutes)
 
 app.listen(5003, () => {
   console.log("Server is runing on port 5003");

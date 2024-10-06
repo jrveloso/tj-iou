@@ -7,7 +7,7 @@ function App() {
       <header>
         <h1>IOUs</h1>
         <nav>
-          <a href='/'>Home</a> | <a href='/ious'>IOUs</a> | <a href='/admin'>Admin</a>
+          <a href='/'>Home</a> | <a href='/ious'>IOUs</a> | <a href='/admin'>Admin</a> | <a href="/logout">Log Out</a>
         </nav>
       </header>
       <main>

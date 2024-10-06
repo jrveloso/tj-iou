@@ -22,7 +22,7 @@ const IOUList = () => {
     console.log(date, sku, name)
     e.preventDefault();
 
-    const response = await fetch("http://localhost:5003/api/ious", {
+    const response = await fetch("http://localhost:5003/api/ious/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
