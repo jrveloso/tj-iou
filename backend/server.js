@@ -8,7 +8,7 @@ const connectDB = require('./config/database')
 const iouRoutes = require('./routes/iouRoutes')
 const authRoutes = require('./routes/authRoutes')
 
-require("dotenv").config();
+require("dotenv").config({path: './config/.env'});
 
 connectDB()
 
