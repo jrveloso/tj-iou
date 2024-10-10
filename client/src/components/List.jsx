@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const List = ({ ious, setIOUs }) => {
+const List = ({ ious, setIOUs, userID }) => {
   const [paid, setPaid] = useState([]);
   const [popup, setPopup] = useState(false);
   const [employeeID, setEmployeeID] = useState();
@@ -17,24 +17,26 @@ const List = ({ ious, setIOUs }) => {
 
   const handlePay = () => {
     const items = ious.filter((iou) => paid.includes(iou._id));
-    console.log(items);
     setPopup(true);
   };
 
   const handleDelete = async (e) => {
-    e.preventDefault()
-    console.log(paid)
+    e.preventDefault();
+    if (userID === employeeID) {
+      alert("Must have a coworker check you out");
+      return;
+    }
 
-    const response = await fetch("http://localhost:5003/api/ious/delete", {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ids: paid })
-    })
-    if(response.ok) {
-        alert(`${paid.length} IOUs deleted successfully.`)
-        setIOUs(prevList => prevList.filter(iou => !paid.includes(iou._id)))
+    const response = await fetch("http://localhost:5003/api/ious/pay", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ids: paid }),
+    });
+    if (response.ok) {
+      alert(`${paid.length} IOUs paid successfully.`);
+      setIOUs((prevList) => prevList.filter((iou) => !paid.includes(iou._id)));
     }
 
     setPopup(false);
@@ -45,7 +47,12 @@ const List = ({ ious, setIOUs }) => {
       {popup && (
         <div>
           <form onSubmit={handleDelete}>
-            <input type="number" value={employeeID} required />
+            <input
+              type="number"
+              value={employeeID}
+              onChange={(e) => setEmployeeID(e.target.value)}
+              required
+            />
             <button type="submit">Submit</button>
           </form>
         </div>

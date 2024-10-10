@@ -1,25 +1,28 @@
 import React, { useEffect, useState } from "react";
 import List from "../components/List";
+import { useAuth } from "../contexts/AuthContext";
 
 const IOUList = () => {
   const [date, setDate] = useState(new Date());
   const [sku, setSku] = useState();
   const [name, setName] = useState("");
   const [ious, setIOUs] = useState([]);
+  const { user } = useAuth();
+  const [userID, setUserId] = useState(user.username);
 
   useEffect(() => {
     const fetchIOUs = async () => {
       const response = await fetch("http://localhost:5003/api/ious");
       const data = await response.json();
-      console.log(data)
+     
+      const unpaid = data.filter((iou) => iou.paid === false && iou.userID === userID);
 
-      setIOUs(data);
+      setIOUs(unpaid);
     };
     fetchIOUs();
   }, []);
 
   const handleSubmit = async (e) => {
-    console.log(date, sku, name)
     e.preventDefault();
 
     const response = await fetch("http://localhost:5003/api/ious/create", {
@@ -27,15 +30,14 @@ const IOUList = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ date, sku, name }),
+      body: JSON.stringify({ date, sku, name, userID }),
     });
     if (response.ok) {
-      const newIOU = await response.json()
-      setIOUs((prevIOUs) => [...prevIOUs, newIOU])
+      const newIOU = await response.json();
+      setIOUs((prevIOUs) => [...prevIOUs, newIOU]);
     } else {
       alert("IOU failed. Please try again.");
     }
-
   };
 
   return (
@@ -74,7 +76,7 @@ const IOUList = () => {
         </div>
         <button type="submit">Submit</button>
       </form>
-      <List ious={ious} setIOUs={setIOUs} />
+      <List ious={ious} setIOUs={setIOUs} userID={userID}/>
     </div>
   );
 };

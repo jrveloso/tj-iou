@@ -1,27 +1,7 @@
-import { useEffect, useState } from "react"
-import React from 'react'
+import { useAuth } from "../contexts/AuthContext";
 
 const Home = () => {
-  const [user, setUser] = useState(null)
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await fetch('http://localhost:5003/api/users/auth', {
-          method: 'GET',
-          credentials: 'include',
-        })
-        
-        const data = await res.json()
-        
-          setUser(data.user)
-        
-      } catch(error) {
-        console.log('No user logged in')
-      }
-    }
-    fetchUser()
-  }, [])
+  const { user } = useAuth();
 
   return (
     <div>
@@ -33,10 +13,9 @@ const Home = () => {
           <a href="/login">Log In</a>
           <a href="/signup">Sign Up</a>
         </span>
-      )
-    }
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
