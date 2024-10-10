@@ -52,20 +52,28 @@ const List = ({ ious, setIOUs, userID }) => {
               value={employeeID}
               onChange={(e) => setEmployeeID(e.target.value)}
               required
+              className="input input-bordered w-full max-w-xs"
             />
-            <button type="submit">Submit</button>
+            <button type="submit" className="btn btn-primary">Submit</button>
           </form>
         </div>
       )}
       <h3>List</h3>
       <ul>
-        {ious.map((iou) => (
-          <li key={iou._id} onClick={() => handleClick(iou._id)}>
-            {iou.name} - {iou.sku}
-          </li>
-        ))}
+        {ious.map((iou, i, a) => {
+          if (i === 0 || iou.date !== a[i - 1].date) {
+            const dateObj = new Date(iou.date);
+            return <h4>{dateObj.toLocaleDateString()}</h4>;
+          } else {
+            return (
+              <li key={iou._id} onClick={() => handleClick(iou._id)}>
+                {iou.name} - {iou.sku}
+              </li>
+            );
+          }
+        })}
       </ul>
-      <button onClick={handlePay}>Pay</button>
+      <button onClick={handlePay} className="btn btn-primary">Pay</button>
     </div>
   );
 };

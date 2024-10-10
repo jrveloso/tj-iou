@@ -32,30 +32,26 @@ const SignUp = () => {
     <div>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="">
-            <span>employee ID</span>
-          </label>
           <input
             type="text"
             placeholder="Employee ID"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
+            className="input input-bordered w-full max-w-xs"
           />
         </div>
         <div>
-          <label htmlFor="">
-            <span>password</span>
-          </label>
           <input
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            className="input input-bordered w-full max-w-xs"
           />
         </div>
-        <button type="submit">Sign Up</button>
+        <button type="submit" className="btn btn-primary">Sign Up</button>
       </form>
     </div>
   );
