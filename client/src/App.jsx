@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 
 function App() {
   return (
-    <div>
+    <div className="artboard phone-5">
         <div className="navbar bg-base-100">
           <div className="flex-1">
             <a className="btn btn-ghost text-xl" href="/">IOUs</a>

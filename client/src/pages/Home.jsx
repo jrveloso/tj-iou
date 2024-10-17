@@ -1,5 +1,6 @@
 import { useAuth } from "../contexts/AuthContext";
 
+
 const Home = () => {
   const { user } = useAuth();
 

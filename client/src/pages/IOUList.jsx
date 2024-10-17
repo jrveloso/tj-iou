@@ -3,7 +3,7 @@ import List from "../components/List";
 import { useAuth } from "../contexts/AuthContext";
 
 const IOUList = () => {
-  const [date, setDate] = useState("");
+  // const [date, setDate] = useState("");
   const [sku, setSku] = useState();
   const [name, setName] = useState("");
   const [ious, setIOUs] = useState([]);
@@ -14,8 +14,8 @@ const IOUList = () => {
     const fetchIOUs = async () => {
       const response = await fetch("http://localhost:5003/api/ious");
       const data = await response.json();
-      const dateObj = new Date(data[0].date);
-      console.log(dateObj.toLocaleDateString());
+      // const dateObj = new Date(data[0].date);
+      // console.log(dateObj.toLocaleDateString());
 
       const unpaid = data.filter(
         (iou) => iou.paid === false && iou.userID === userID
@@ -28,6 +28,9 @@ const IOUList = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const date = new Date().toLocaleDateString()
+    console.log(date)
 
     const response = await fetch("http://localhost:5003/api/ious/create", {
       method: "POST",
@@ -48,7 +51,7 @@ const IOUList = () => {
     <div>
       <h2>Submit an IOU</h2>
       <form onSubmit={handleSubmit}>
-        <div>
+        {/* <div>
           <label htmlFor="sku"></label>
           <input
             type="date"
@@ -59,7 +62,7 @@ const IOUList = () => {
             placeholder="Date"
             className="input input-bordered w-full max-w-xs"
           />
-        </div>
+        </div> */}
         <div>
           <label htmlFor="sku"></label>
           <input
