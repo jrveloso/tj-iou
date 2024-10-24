@@ -3,7 +3,7 @@ import React from "react";
 const ListItem = ({ id, name, sku, handleClick }) => {
   return (
     <li
-      className="py-1 border-solid border-b-2 border-gray-200"
+      className="py-1 border-solid border-b-2 border-gray-100"
       key={id}
       onClick={() => handleClick(id)}
     >

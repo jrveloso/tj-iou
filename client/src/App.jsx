@@ -1,9 +1,10 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import BottomNav from "./components/BottomNav";
 
 function App() {
   return (
-    <div className="artboard phone-5">
+    <div className="h-screen w-screen">
       <header>
         <Navbar />
       </header>
@@ -11,7 +12,7 @@ function App() {
         <Outlet />
       </main>
       <footer>
-        
+        <BottomNav />
       </footer>
     </div>
   );

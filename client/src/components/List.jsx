@@ -64,11 +64,9 @@ const List = ({ ious, setIOUs, userID }) => {
       <ul className="py-2">
         {ious.map((iou, i, a) => {
           if (i === 0 || iou.date !== a[i - 1].date) {
-            console.log(iou)
-            // const dateObj = new Date(iou.date);
             return (
               <>
-                <h3>{iou.date}</h3>
+                <h3 className="text-xl font-medium">{iou.date}</h3>
                 <ListItem id={iou._id} name={iou.name} sku={iou.sku} handleClick={handleClick}/>
               </>
             );
