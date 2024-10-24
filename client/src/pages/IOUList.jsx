@@ -14,8 +14,6 @@ const IOUList = () => {
     const fetchIOUs = async () => {
       const response = await fetch("http://localhost:5003/api/ious");
       const data = await response.json();
-      // const dateObj = new Date(data[0].date);
-      // console.log(dateObj.toLocaleDateString());
 
       const unpaid = data.filter(
         (iou) => iou.paid === false && iou.userID === userID
@@ -51,19 +49,7 @@ const IOUList = () => {
     <div>
       <h2>Submit an IOU</h2>
       <form onSubmit={handleSubmit}>
-        {/* <div>
-          <label htmlFor="sku"></label>
-          <input
-            type="date"
-            id="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            required
-            placeholder="Date"
-            className="input input-bordered w-full max-w-xs"
-          />
-        </div> */}
-        <div>
+        <div className="pb-2">
           <label htmlFor="sku"></label>
           <input
             type="number"
@@ -75,7 +61,7 @@ const IOUList = () => {
             className="input input-bordered w-full max-w-xs"
           />
         </div>
-        <div>
+        <div className="pb-2">
           <label htmlFor="name"></label>
           <input
             type="text"

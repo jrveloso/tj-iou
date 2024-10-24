@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ListItem from "./ListItem";
 
 const List = ({ ious, setIOUs, userID }) => {
   const [paid, setPaid] = useState([]);
@@ -60,25 +61,20 @@ const List = ({ ious, setIOUs, userID }) => {
           </form>
         </div>
       )}
-      <h3>List</h3>
-      <ul>
+      <ul className="py-2">
         {ious.map((iou, i, a) => {
           if (i === 0 || iou.date !== a[i - 1].date) {
             console.log(iou)
             // const dateObj = new Date(iou.date);
             return (
               <>
-                <h4>{iou.date}</h4>
-                <li key={iou._id} onClick={() => handleClick(iou._id)}>
-                  {iou.name} - {iou.sku}
-                </li>
+                <h3>{iou.date}</h3>
+                <ListItem id={iou._id} name={iou.name} sku={iou.sku} handleClick={handleClick}/>
               </>
             );
           } else {
             return (
-              <li key={iou._id} onClick={() => handleClick(iou._id)}>
-                {iou.name} - {iou.sku}
-              </li>
+              <ListItem id={iou._id} name={iou.name} sku={iou.sku} handleClick={handleClick}/>
             );
           }
         })}

@@ -1,8 +1,6 @@
 const TextInput = ({ name, placeholder, value, onChange }) => {
     const checkInputType = (type) => {
         switch(type) {
-            case 'date':
-                return 'date';
             case 'sku':
                 return 'number';
             case 'name':
