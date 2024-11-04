@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import List from "../components/List";
 import { useAuth } from "../contexts/AuthContext";
+import Alert from "../components/Alert";
+import Form from "../components/Form";
 
 const IOUList = () => {
   // const [date, setDate] = useState("");
@@ -9,6 +11,7 @@ const IOUList = () => {
   const [ious, setIOUs] = useState([]);
   const { user } = useAuth();
   const [userID, setUserId] = useState(user.username);
+  const [alert, setAlert] = useState(false);
 
   useEffect(() => {
     const fetchIOUs = async () => {
@@ -27,8 +30,8 @@ const IOUList = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const date = new Date().toLocaleDateString()
-    console.log(date)
+    const date = new Date().toLocaleDateString();
+    console.log(date);
 
     const response = await fetch("http://localhost:5003/api/ious/create", {
       method: "POST",
@@ -41,41 +44,40 @@ const IOUList = () => {
       const newIOU = await response.json();
       setIOUs((prevIOUs) => [...prevIOUs, newIOU]);
     } else {
-      alert("IOU failed. Please try again.");
+      setAlert(true);
     }
+  };
+
+  const showAlert = () => {
+    setAlert(false);
   };
 
   return (
     <div>
-      <h2>Submit an IOU</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="pb-2">
-          <label htmlFor="sku"></label>
-          <input
-            type="number"
-            id="sku"
-            value={sku}
-            onChange={(e) => setSku(e.target.value)}
-            required
-            placeholder="SKU"
-            className="input input-bordered w-full max-w-xs"
+      <h1>{userID}'s IOUs</h1>
+      <List ious={ious} setIOUs={setIOUs} userID={userID} setAlert={setAlert} />
+      <button
+        className="btn absolute right-3 bottom-20"
+        onClick={() => document.getElementById("my_modal_3").showModal()}
+      >
+        +
+      </button>
+      <dialog id="my_modal_3" className="modal">
+        <div className="modal-box">
+          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+            ✕
+          </button>
+          <h2 className="font-bold text-lg">Submit an IOU</h2>
+          <Form
+            sku={sku}
+            name={name}
+            handleSubmit={handleSubmit}
+            setSku={setSku}
+            setName={setName}
           />
         </div>
-        <div className="pb-2">
-          <label htmlFor="name"></label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            placeholder="Product Name"
-            className="input input-bordered w-full max-w-xs"
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">Submit</button>
-      </form>
-      <List ious={ious} setIOUs={setIOUs} userID={userID} />
+      </dialog>
+      {alert && <Alert removeAlert={showAlert} ious={ious} />}
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ListItem from "./ListItem";
 
-const List = ({ ious, setIOUs, userID }) => {
+const List = ({ ious, setIOUs, userID, setAlert }) => {
   const [paid, setPaid] = useState([]);
   const [popup, setPopup] = useState(false);
   const [employeeID, setEmployeeID] = useState();
@@ -17,7 +17,7 @@ const List = ({ ious, setIOUs, userID }) => {
   };
 
   const handlePay = () => {
-    const items = ious.filter((iou) => paid.includes(iou._id));
+    // const items = ious.filter((iou) => paid.includes(iou._id));
     setPopup(true);
   };
 
@@ -36,7 +36,8 @@ const List = ({ ious, setIOUs, userID }) => {
       body: JSON.stringify({ ids: paid }),
     });
     if (response.ok) {
-      alert(`${paid.length} IOUs paid successfully.`);
+      // alert(`${paid.length} IOUs paid successfully.`);
+      setAlert(true)
       setIOUs((prevList) => prevList.filter((iou) => !paid.includes(iou._id)));
     }
 
