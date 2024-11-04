@@ -8,7 +8,7 @@ function App() {
       <header>
         <Navbar />
       </header>
-      <main>
+      <main className='px-2'>
         <Outlet />
       </main>
       <footer>
