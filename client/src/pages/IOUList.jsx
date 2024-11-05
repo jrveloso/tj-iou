@@ -54,7 +54,7 @@ const IOUList = () => {
 
   return (
     <div>
-      <h1>{userID}'s IOUs</h1>
+      <h1 className="my-2">{userID}'s IOUs</h1>
       <List ious={ious} setIOUs={setIOUs} userID={userID} setAlert={setAlert} />
       <button
         className="btn absolute right-3 bottom-20"
