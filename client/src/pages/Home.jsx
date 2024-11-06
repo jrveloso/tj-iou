@@ -5,17 +5,26 @@ const Home = () => {
   const { user } = useAuth();
 
   return (
-    <div>
-      <h1>Home</h1>
+    <div className="hero bg-base-200 min-h-screen">
+    <div className="hero-content text-center">
+      <div className="max-w-md">
       {user ? (
-        <h2>Welcome {user.username}</h2>
+        <h1>Welcome {user.username}</h1>
       ) : (
+        <>
+        <h1 className="text-5xl font-bold">Hello there</h1>
+        <p className="py-6">
+          Track and pay your IOUs
+        </p>
         <span>
-          <a href="/login">Log In</a>
-          <a href="/signup">Sign Up</a>
+          <a href="/login" className="btn btn-primary mr-2">Log In</a>
+          <a href="/signup" className="btn btn-primary">Sign Up</a>
         </span>
+        </>
       )}
+      </div>
     </div>
+  </div>
   );
 };
 
