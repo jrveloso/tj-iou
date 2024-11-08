@@ -4,11 +4,11 @@ import BottomNav from "./components/BottomNav";
 
 function App() {
   return (
-    <div className="h-screen w-screen">
+    <div className="h-screen w-screen overflow-hidden">
       <header>
         <Navbar />
       </header>
-      <main className='px-2'>
+      <main>
         <Outlet />
       </main>
       <footer>

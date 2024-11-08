@@ -1,36 +1,58 @@
+import TextInput from "./TextInput";
 
-const Form = ({sku, name, handleSubmit, setSku, setName}) => {
+const Form = ({ handleSubmit, handleChange, formArray }) => {
+  const createPlaceholder = (name) => {
+    switch (name) {
+      case "sku":
+        return "SKU";
+      case "name":
+        return "Product Name";
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit} method='dialog'>
-        <div className="pb-2">
-          <label htmlFor="sku"></label>
-          <input
-            type="number"
-            id="sku"
-            value={sku}
-            onChange={(e) => setSku(e.target.value)}
-            required
-            placeholder="SKU"
-            className="input input-bordered w-full max-w-xs"
-          />
-        </div>
-        <div className="pb-2">
-          <label htmlFor="name"></label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            placeholder="Product Name"
-            className="input input-bordered w-full max-w-xs"
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
-      </form>
-  )
-}
+    <form onSubmit={handleSubmit} method="dialog">
+      {formArray.map((input, i) => {
+        if (formArray.length > 1) {
+          const name = input[0];
+          const { id, type, inputValue } = input[1];
 
-export default Form
+          return (
+            <div className="pb-2" id={id}>
+              <TextInput name={name} type={type} value={inputValue} handleChange={handleChange} placeholder={createPlaceholder(name)}/>
+              {/* <input
+                name={name}
+                type={type}
+                value={inputValue}
+                onChange={handleChange}
+                required
+                placeholder={createPlaceholder(name)}
+                className="input input-bordered w-full max-w-xs"
+              /> */}
+            </div>
+          );
+        } else {
+          return (
+            <div className="pb-2" id={i}>
+              <TextInput name={"Employee ID"} type={"number"} value={formArray[0]} handleChange={(e) => handleChange(e.target.value)} placeholder={"Employee ID"}/>
+              {/* <input
+                name="Employee ID"
+                type="number"
+                value={formArray[0]}
+                onChange={(e) => handleChange(e.target.value)}
+                required
+                placeholder="Employee ID"
+                className="input input-bordered w-full max-w-xs"
+              /> */}
+            </div>
+          );
+        }
+      })}
+      <button type="submit" className="btn btn-primary">
+        Submit
+      </button>
+    </form>
+  );
+};
+
+export default Form;

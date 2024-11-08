@@ -1,27 +1,23 @@
-const TextInput = ({ name, placeholder, value, onChange }) => {
-    const checkInputType = (type) => {
-        switch(type) {
-            case 'sku':
-                return 'number';
-            case 'name':
-                return 'text';
-        }
+const TextInput = ({ name, type, placeholder, value, handleChange }) => {
+  const checkInputType = (type) => {
+    switch (type) {
+      case "sku":
+        return "number";
+      case "name":
+        return "text";
     }
+  };
 
   return (
-    <div>
-      <label htmlFor="sku"></label>
-      <input
-        name={name}
-        type={checkInputType(name)}
-        id="date"
-        value={value}
-        onChange={onChange}
-        required
-        placeholder={placeholder}
-        className="input input-bordered w-full max-w-xs"
-      />
-    </div>
+    <input
+      name={name}
+      type={type}
+      value={value}
+      onChange={handleChange}
+      required
+      placeholder={placeholder}
+      className="input input-bordered w-full max-w-xs"
+    />
   );
 };
 

@@ -2,16 +2,19 @@ import React, { useEffect, useState } from "react";
 import List from "../components/List";
 import { useAuth } from "../contexts/AuthContext";
 import Alert from "../components/Alert";
+import Popup from "../components/Popup";
 import Form from "../components/Form";
 
 const IOUList = () => {
-  // const [date, setDate] = useState("");
-  const [sku, setSku] = useState();
-  const [name, setName] = useState("");
+  const [form, setForm] = useState({
+    sku: { id: 1, type: "number", inputValue: "" },
+    name: { id: 2, type: "text", inputValue: "" },
+  });
   const [ious, setIOUs] = useState([]);
   const { user } = useAuth();
   const [userID, setUserId] = useState(user.username);
   const [alert, setAlert] = useState(false);
+  const formArray = Object.entries(form);
 
   useEffect(() => {
     const fetchIOUs = async () => {
@@ -27,11 +30,26 @@ const IOUList = () => {
     fetchIOUs();
   }, []);
 
+  const handleChange = (e) => {
+    const {
+      target: { value, name },
+    } = e;
+    setForm({
+      ...form,
+      [name]: {
+        ...form[name],
+        inputValue: value,
+      },
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const date = new Date().toLocaleDateString();
-    console.log(date);
+
+    const sku = form.sku.inputValue;
+    const name = form.name.inputValue;
 
     const response = await fetch("http://localhost:5003/api/ious/create", {
       method: "POST",
@@ -40,12 +58,20 @@ const IOUList = () => {
       },
       body: JSON.stringify({ date, sku, name, userID }),
     });
+
     if (response.ok) {
       const newIOU = await response.json();
       setIOUs((prevIOUs) => [...prevIOUs, newIOU]);
     } else {
       setAlert(true);
     }
+
+    document.getElementById("submit").close();
+
+    setForm({
+      sku: { id: 1, type: "number", inputValue: "" },
+      name: { id: 2, type: "text", inputValue: "" },
+    });
   };
 
   const showAlert = () => {
@@ -53,30 +79,32 @@ const IOUList = () => {
   };
 
   return (
-    <div>
-      <h1 className="my-2">{userID}'s IOUs</h1>
-      <List ious={ious} setIOUs={setIOUs} userID={userID} setAlert={setAlert} />
-      <button
-        className="btn absolute right-3 bottom-20"
-        onClick={() => document.getElementById("my_modal_3").showModal()}
-      >
-        +
-      </button>
-      <dialog id="my_modal_3" className="modal">
-        <div className="modal-box">
-          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-            ✕
-          </button>
-          <h2 className="font-bold text-lg">Submit an IOU</h2>
-          <Form
-            sku={sku}
-            name={name}
+    <div className="flex flex-col lg:flex-row max-w-screen-2xl min-h-screen">
+      <section className="hidden lg:w-1/4 bg-slate-100 lg:flex lg:flex-col justify-start px-4 pt-4">
+        <h2 className="font-bold text-lg">Submit an IOU</h2>
+        <Form
+          handleSubmit={handleSubmit}
+          handleChange={handleChange}
+          formArray={formArray}
+        />
+      </section>
+      <section className="flex flex-col lg:w-3/4 px-4">
+        <h1 className="my-2">{userID}'s IOUs</h1>
+        <List
+          ious={ious}
+          setIOUs={setIOUs}
+          userID={userID}
+          setAlert={setAlert}
+        />
+        <span className="lg:hidden">
+          <Popup
+            type={""}
             handleSubmit={handleSubmit}
-            setSku={setSku}
-            setName={setName}
+            handleChange={handleChange}
+            value={formArray}
           />
-        </div>
-      </dialog>
+        </span>
+      </section>
       {alert && <Alert removeAlert={showAlert} ious={ious} />}
     </div>
   );
