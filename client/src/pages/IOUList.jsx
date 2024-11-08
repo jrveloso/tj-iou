@@ -89,7 +89,7 @@ const IOUList = () => {
         />
       </section>
       <section className="flex flex-col lg:w-3/4 px-4">
-        <h1 className="my-2">{userID}'s IOUs</h1>
+        <h1 className="my-2">{user.firstname}'s IOUs</h1>
         <List
           ious={ious}
           setIOUs={setIOUs}

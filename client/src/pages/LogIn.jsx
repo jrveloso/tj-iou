@@ -26,7 +26,7 @@ const LogIn = () => {
       const data = await response.json();
       console.log("Logged in:", data);
 
-      navigate("/ious");
+      window.location.reload()
     } catch (error) {
       console.error("Error logging in:", error.message);
     }

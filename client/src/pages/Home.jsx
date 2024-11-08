@@ -11,7 +11,7 @@ const Home = () => {
         <div className="max-w-md">
           {user ? (
             <section>
-              <h1>Welcome {user.username}</h1>
+              <h1>Welcome {user.firstname}</h1>
               <p>
                 You have unpaid{" "}
                 {

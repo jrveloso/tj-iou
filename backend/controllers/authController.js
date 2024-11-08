@@ -2,11 +2,11 @@ const User = require("../models/User");
 
 const signUpUser = async (req, res) => {
   console.log("Request Body:", req.body);
-  const { username, password } = req.body;
+  const { firstname, lastname, username, password } = req.body;
   console.log(username, password);
 
   try {
-    const user = new User({ username: username, password: password });
+    const user = new User({ firstname: firstname, lastname: lastname, username: username, password: password });
     await user.save();
     res.status(201).send({ user });
   } catch (err) {

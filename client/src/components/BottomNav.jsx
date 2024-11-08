@@ -3,9 +3,7 @@ import { useLocation } from "react-router-dom";
 
 const BottomNav = () => {
   const location = useLocation();
-  // console.log(location);
   const currentPath = location.pathname;
-  // console.log(currentPath);
 
   return (
     <div className="btm-nav lg:hidden">

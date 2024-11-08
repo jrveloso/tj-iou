@@ -6,6 +6,8 @@ const SignUp = () => {
   const [confirmedUsername, setConfirmedUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
+  const [firstname, setFirstname] = useState("")
+  const [lastname, setLastname] = useState("")
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -25,7 +27,7 @@ const SignUp = () => {
           "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ firstname, lastname, username, password }),
       });
 
       if (!res.ok) {
@@ -41,13 +43,39 @@ const SignUp = () => {
   };
 
   return (
-    <div className="hero bg-base-200 min-h-screen">
+    <div className="hero bg-base-200">
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="text-center lg:text-left">
           <h1 className="text-5xl font-bold">Sign up!</h1>
         </div>
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
           <form className="card-body" onSubmit={handleSubmit}>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">First Name</span>
+              </label>
+              <input
+                type="text"
+                placeholder="First Name"
+                value={firstname}
+                onChange={(e) => setFirstname(e.target.value)}
+                required
+                className="input input-bordered w-full max-w-xs"
+              />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Last Name</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Last Name"
+                value={lastname}
+                onChange={(e) => setLastname(e.target.value)}
+                required
+                className="input input-bordered w-full max-w-xs"
+              />
+            </div>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Employee ID</span>

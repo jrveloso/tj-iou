@@ -3,7 +3,7 @@ import React from "react";
 const Navbar = () => {
   return (
     <div className="navbar bg-base-100 border-solid border-b-2 border-gray-200 flex">
-      <div className="flex-1 self-start lg:justify-start">
+      <div className="flex-1 flex justify-center md:justify-start">
         <a className="btn btn-ghost text-xl" href="/ious">
           IOUs
         </a>

@@ -2,6 +2,14 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
 const UserSchema = new mongoose.Schema({
+  firstname: {
+    type: String,
+    required: true,
+  },
+  lastname: {
+    type: String,
+    required: true,
+  },
   username: {
     type: String,
     required: true,
@@ -16,7 +24,7 @@ const UserSchema = new mongoose.Schema({
 UserSchema.pre("save", async function (next) {
   const user = this;
 
-  if ((!user.isModified("password"))) {
+  if (!user.isModified("password")) {
     return next();
   }
 
