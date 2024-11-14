@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
   const [confirmedUsername, setConfirmedUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
-  const [firstname, setFirstname] = useState("")
-  const [lastname, setLastname] = useState("")
-  const navigate = useNavigate();
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const { logIn } = useAuth()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,6 +21,8 @@ const SignUp = () => {
       alert("passwords must match");
       return;
     }
+
+    console.log(firstName, lastName, username, password)
     try {
       const res = await fetch("http://localhost:5003/api/users/signup", {
         method: "POST",
@@ -27,16 +30,26 @@ const SignUp = () => {
           "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify({ firstname, lastname, username, password }),
+        body: JSON.stringify({ firstName, lastName, username, password }),
       });
 
       if (!res.ok) {
         throw new Error("Sign up failed");
       }
 
-      const data = await res.json();
+      const response = await fetch("http://localhost:5003/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+        credentials: "include", // To send cookies
+      });
+
+      const data = await response.json()
+
       console.log("Registered", data);
-      navigate("/ious");
+      logIn(data.user)
     } catch (error) {
       console.error("Error registering:", error.message);
     }
@@ -57,8 +70,8 @@ const SignUp = () => {
               <input
                 type="text"
                 placeholder="First Name"
-                value={firstname}
-                onChange={(e) => setFirstname(e.target.value)}
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
                 required
                 className="input input-bordered w-full max-w-xs"
               />
@@ -70,8 +83,8 @@ const SignUp = () => {
               <input
                 type="text"
                 placeholder="Last Name"
-                value={lastname}
-                onChange={(e) => setLastname(e.target.value)}
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
                 required
                 className="input input-bordered w-full max-w-xs"
               />

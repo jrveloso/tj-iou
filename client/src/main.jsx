@@ -11,6 +11,7 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import LogOut from "./pages/LogOut.jsx";
 import { AuthProvider } from "./contexts/AuthContext.jsx";
 import { AppProvider } from "./contexts/AppContext.jsx";
+import ProtectedAdminRoute from "./components/ProtectedAdminRoute.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Router>
@@ -30,9 +31,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route
               path="admin"
               element={
-                <ProtectedRoute>
+                <ProtectedAdminRoute>
                   <Admin />
-                </ProtectedRoute>
+                </ProtectedAdminRoute>
               }
             />
             <Route path="signup" element={<SignUp />} />

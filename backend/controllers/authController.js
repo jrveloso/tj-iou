@@ -2,11 +2,10 @@ const User = require("../models/User");
 
 const signUpUser = async (req, res) => {
   console.log("Request Body:", req.body);
-  const { firstname, lastname, username, password } = req.body;
-  console.log(username, password);
+  const { firstName, lastName, username, password } = req.body;
 
   try {
-    const user = new User({ firstname: firstname, lastname: lastname, username: username, password: password });
+    const user = new User({ firstName, lastName, username: username, password });
     await user.save();
     res.status(201).send({ user });
   } catch (err) {
@@ -40,6 +39,7 @@ const logOutUser = (req, res) => {
   }
   
   const checkAuth = (req, res) => {
+    console.log(req.user)
     if (req.isAuthenticated()) {
       return res.send({ user: req.user });
     }

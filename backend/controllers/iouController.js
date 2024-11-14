@@ -13,8 +13,8 @@ const getIOUs = async (req, res) => {
 
 const postIOU = async (req, res) => {
   try {
-    const { date, name, sku, userID, paid } = req.body;
-    const newIOU = new IOU({ date, sku, name, userID, paid });
+    const { date, name, sku, userID, fullName, paid } = req.body;
+    const newIOU = new IOU({ date, sku, name, userID, fullName, paid });
     await newIOU.save();
     res.json(newIOU);
   } catch (error) {

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const LogIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const { logIn } = useAuth()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,8 +25,7 @@ const LogIn = () => {
 
       const data = await response.json();
       console.log("Logged in:", data);
-
-      window.location.reload()
+      logIn(data.user)
     } catch (error) {
       console.error("Error logging in:", error.message);
     }

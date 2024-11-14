@@ -1,31 +1,15 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
 
 const LogOut = () => {
-    const navigate = useNavigate()
-
-    const handleLogout = async () => {
-        try {
-            const response = await fetch('http://localhost:5003/api/users/logout', {
-                method: 'GET',
-                credentials: 'include',
-            })
-
-            if(response.ok) {
-                navigate('/')
-            } else {
-                console.error('Logout failed')
-            }
-        } catch(error) {
-            console.error('Error during logout:', error)
-        }
-    }
+    const { logOut } = useAuth()
 
     useEffect(() => {
-        handleLogout()
-    }, [])
+        logOut()
+    }, [logOut])
   return (
-    <div>Logging out...</div>
+    <span className="loading loading-spinner loading-lg h-screen flex justify-self-center content-center"></span>
   )
 }
 

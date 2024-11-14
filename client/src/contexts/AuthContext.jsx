@@ -7,8 +7,10 @@ export const useAuth = () => useContext(AuthContext)
 
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
+    const [isAdmin, setIsAdmin] = useState(false)
     const [loading, setLoading] = useState(true)
     const [user, setUser] = useState(null)
+    const navigate = useNavigate()
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -22,6 +24,7 @@ export const AuthProvider = ({ children }) => {
               const data = await res.json();
               // console.log(data)
               setUser(data.user)
+              setIsAdmin(data.user.admin)
               setIsAuthenticated(!!data.user); // Set to true if user exists
             } else {
               setIsAuthenticated(false)
@@ -36,8 +39,28 @@ export const AuthProvider = ({ children }) => {
         checkAuth();
       }, []);
 
+      const logIn = (userData) => {
+        setUser(userData)
+        setIsAuthenticated(true)
+        navigate('/ious')
+      }
+
+      const logOut = async () => {
+        try {
+          await fetch('http://localhost:5003/api/users/logout', {
+              method: 'GET',
+              credentials: 'include',
+          })
+      } catch(error) {
+          console.error('Error during logout:', error)
+      }
+        setUser(null)
+        setIsAuthenticated(false)
+        navigate('/')
+      }
+
   return (
-    <AuthContext.Provider value={{user, isAuthenticated, loading}}>
+    <AuthContext.Provider value={{user, isAuthenticated, isAdmin, loading, logIn, logOut }}>
         {children}
     </AuthContext.Provider>
   )

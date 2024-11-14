@@ -20,9 +20,8 @@ const IOUList = () => {
     const fetchIOUs = async () => {
       const response = await fetch("http://localhost:5003/api/ious");
       const data = await response.json();
-
       const unpaid = data.filter(
-        (iou) => iou.paid === false && iou.userID === userID
+        (iou) => iou.paid === false && iou.userID === user.username
       );
 
       setIOUs(unpaid);
@@ -47,16 +46,17 @@ const IOUList = () => {
     e.preventDefault();
 
     const date = new Date().toLocaleDateString();
-
+    const userID = user.username
     const sku = form.sku.inputValue;
     const name = form.name.inputValue;
+    const fullName = `${user.firstName} ${user.lastName}`
 
     const response = await fetch("http://localhost:5003/api/ious/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ date, sku, name, userID }),
+      body: JSON.stringify({ date, sku, name, userID, fullName }),
     });
 
     if (response.ok) {
@@ -89,11 +89,11 @@ const IOUList = () => {
         />
       </section>
       <section className="flex flex-col lg:w-3/4 px-4">
-        <h1 className="my-2">{user.firstname}'s IOUs</h1>
+        <h1 className="my-2">{user.firstName}'s IOUs</h1>
         <List
           ious={ious}
           setIOUs={setIOUs}
-          userID={userID}
+          userID={ user.username }
           setAlert={setAlert}
         />
         <span className="lg:hidden">
@@ -104,8 +104,8 @@ const IOUList = () => {
             value={formArray}
           />
         </span>
-      </section>
       {alert && <Alert removeAlert={showAlert} ious={ious} />}
+      </section>
     </div>
   );
 };
