@@ -10,6 +10,12 @@ const authRoutes = require('./routes/authRoutes')
 
 require("dotenv").config({path: './config/.env'});
 
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
 connectDB()
 
 const app = express();
