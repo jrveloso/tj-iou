@@ -7,7 +7,7 @@ const Popup = ({ type, handleChange, value, handleSubmit }) => {
     <>
       <button
         className={
-          pay ? "btn btn-primary w-full" : "btn absolute right-3 bottom-20"
+          pay ? "btn btn-primary w-full lg:w-max" : "btn absolute right-3 bottom-20"
         }
         onClick={() => document.getElementById(payOrSubmit).showModal()}
       >

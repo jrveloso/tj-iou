@@ -46,10 +46,10 @@ const IOUList = () => {
     e.preventDefault();
 
     const date = new Date().toLocaleDateString();
-    const userID = user.username
+    const userID = user.username;
     const sku = form.sku.inputValue;
     const name = form.name.inputValue;
-    const fullName = `${user.firstName} ${user.lastName}`
+    const fullName = `${user.firstName} ${user.lastName}`;
 
     const response = await fetch("http://localhost:5003/api/ious/create", {
       method: "POST",
@@ -93,7 +93,7 @@ const IOUList = () => {
         <List
           ious={ious}
           setIOUs={setIOUs}
-          userID={ user.username }
+          userID={user.username}
           setAlert={setAlert}
         />
         <span className="lg:hidden">
@@ -104,7 +104,7 @@ const IOUList = () => {
             value={formArray}
           />
         </span>
-      {alert && <Alert removeAlert={showAlert} ious={ious} />}
+        {alert && <Alert removeAlert={showAlert} ious={ious} />}
       </section>
     </div>
   );

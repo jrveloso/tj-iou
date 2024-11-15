@@ -11,16 +11,12 @@ const Home = () => {
         <div className="max-w-md">
           {user ? (
             <section>
-              <h1>Welcome {user.firstName}</h1>
-              <p>
-                You have unpaid{" "}
-                {
+              <h1>You have {
                   ious.filter(
                     (iou) => iou.paid === false && iou.userID === user.username
                   ).length
-                }{" "}
-                IOUs
-              </p>
+                }{" "}unpaid{" "}
+                IOUs, {user.firstName}</h1>
             </section>
           ) : (
             <section>
