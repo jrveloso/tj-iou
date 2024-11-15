@@ -39,7 +39,7 @@ const logOutUser = (req, res) => {
   }
   
   const checkAuth = (req, res) => {
-    console.log(req.user)
+    // console.log(req.user)
     if (req.isAuthenticated()) {
       return res.send({ user: req.user });
     }

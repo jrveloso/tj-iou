@@ -1,9 +1,6 @@
 import React from "react";
-import { useAuth } from "../contexts/AuthContext";
 
 const Navbar = () => {
-  const { isAdmin } = useAuth();
-
   return (
     <div className="navbar bg-base-100 border-solid border-b-2 border-gray-200 flex">
       <div className="flex-1 flex justify-center md:justify-start">
@@ -19,11 +16,9 @@ const Navbar = () => {
           <li>
             <a href="/ious">IOUs</a>
           </li>
-          {isAdmin ? (
-            <li>
-              <a href="/admin">Admin</a>
-            </li>
-          ) : ""}
+          <li>
+            <a href="/admin">Admin</a>
+          </li>
           <li>
             <a href="/logout">Log Out</a>
           </li>

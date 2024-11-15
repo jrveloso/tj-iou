@@ -10,7 +10,7 @@ const ProtectedAdminRoute = ({ children }) => {
       <span className="loading loading-spinner loading-lg h-screen flex justify-self-center content-center"></span>
     );
     
-  return isAdmin ? children : <Navigate to="/" />;
+  return isAdmin ? children : <Navigate to="/404" />;
 };
 
 export default ProtectedAdminRoute;

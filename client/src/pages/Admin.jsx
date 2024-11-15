@@ -31,7 +31,7 @@ const Admin = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
+                  <tr className="hover">
                     <td>{iou.fullName}</td>
                     <td>{iou.name}</td>
                   </tr>
@@ -41,7 +41,7 @@ const Admin = () => {
           } else {
             return (
               <tbody>
-                <tr>
+                <tr className="hover">
                   <td>{iou.fullName}</td>
                   <td>{iou.name}</td>
                 </tr>
