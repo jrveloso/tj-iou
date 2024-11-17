@@ -5,7 +5,7 @@ const Admin = () => {
 
   useEffect(() => {
     const fetchIOUs = async () => {
-      const response = await fetch("http://localhost:5003/api/ious");
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/ious`);
       const data = await response.json();
 
       const unpaid = data.filter((iou) => iou.paid === false);

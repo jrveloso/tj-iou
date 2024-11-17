@@ -29,7 +29,7 @@ const List = ({ ious, setIOUs, userID, setAlert }) => {
 
     const paid = Object.keys(checkedItems);
 
-    const response = await fetch("http://localhost:5003/api/ious/pay", {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/ious/pay`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

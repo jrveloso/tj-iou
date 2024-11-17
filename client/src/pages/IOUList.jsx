@@ -18,7 +18,7 @@ const IOUList = () => {
 
   useEffect(() => {
     const fetchIOUs = async () => {
-      const response = await fetch("http://localhost:5003/api/ious");
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/ious`);
       const data = await response.json();
       const unpaid = data.filter(
         (iou) => iou.paid === false && iou.userID === user.username
@@ -51,7 +51,7 @@ const IOUList = () => {
     const name = form.name.inputValue;
     const fullName = `${user.firstName} ${user.lastName}`;
 
-    const response = await fetch("http://localhost:5003/api/ious/create", {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/ious/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -7,15 +7,21 @@ const logger = require("morgan");
 const connectDB = require('./config/database')
 const iouRoutes = require('./routes/iouRoutes')
 const authRoutes = require('./routes/authRoutes')
+const path = require('path');
 
 require("dotenv").config({path: './config/.env'});
 
 connectDB()
 
 const app = express();
+app.use(express.static(path.join(__dirname, 'build')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://clipboardiou.netlify.app",
     credentials: true,
   })
 );
