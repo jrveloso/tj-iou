@@ -7,7 +7,6 @@ const logger = require("morgan");
 const connectDB = require('./config/database')
 const iouRoutes = require('./routes/iouRoutes')
 const authRoutes = require('./routes/authRoutes')
-const path = require('path');
 const PORT = process.env.PORT || 3000
 
 require("dotenv").config({path: './config/.env'});
