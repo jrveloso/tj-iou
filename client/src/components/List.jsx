@@ -29,7 +29,7 @@ const List = ({ ious, setIOUs, userID, setAlert }) => {
 
     const paid = Object.keys(checkedItems);
 
-    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/ious/pay`, {
+    const response = await fetch(`https://backend-small-violet-5911.fly.dev/api/ious/pay`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

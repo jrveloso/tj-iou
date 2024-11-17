@@ -10,7 +10,7 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     const fetchIOUs = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/ious`);
+        const response = await fetch(`https://backend-small-violet-5911.fly.dev/api/ious`);
         const data = await response.json();
 
         setIOUs(data);

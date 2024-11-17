@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const checkAuth = async () => {
           try {
-            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/users/auth`, {
+            const res = await fetch(`https://backend-small-violet-5911.fly.dev/api/users/auth`, {
               method: 'GET',
               credentials: 'include', // Sends cookies to the backend
             });
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
 
       const logOut = async () => {
         try {
-          await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/users/logout`, {
+          await fetch(`https://backend-small-violet-5911.fly.dev/api/users/logout`, {
               method: 'GET',
               credentials: 'include',
           })
