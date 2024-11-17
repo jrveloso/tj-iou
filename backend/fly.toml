@@ -20,3 +20,6 @@ primary_region = 'ewr'
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
+
+[env]
+MONGO_URI = "mongodb+srv://yoda:tbrtqOA0uPtLiAwn@cluster0.xidtdhg.mongodb.net/iou?retryWrites=true&w=majority&appName=Cluster0"

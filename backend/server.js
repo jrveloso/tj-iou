@@ -8,17 +8,13 @@ const connectDB = require('./config/database')
 const iouRoutes = require('./routes/iouRoutes')
 const authRoutes = require('./routes/authRoutes')
 const path = require('path');
-const PORT = process.env.PORT || 5003
+const PORT = process.env.PORT || 3000
 
 require("dotenv").config({path: './config/.env'});
 
 connectDB()
 
 const app = express();
-app.use(express.static(path.join(__dirname, 'build')));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
 
 app.use(
   cors({
