@@ -22,4 +22,4 @@ primary_region = 'ewr'
   cpus = 1
 
 [env]
-MONGO_URI = "mongodb+srv://yoda:tbrtqOA0uPtLiAwn@cluster0.xidtdhg.mongodb.net/iou?retryWrites=true&w=majority&appName=Cluster0"
+MONGODB_PASSWORD = "mongodb+srv://yoda:tbrtqOA0uPtLiAwn@cluster0.xidtdhg.mongodb.net/iou?retryWrites=true&w=majority&appName=Cluster0"
