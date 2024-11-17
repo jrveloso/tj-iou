@@ -8,6 +8,7 @@ const connectDB = require('./config/database')
 const iouRoutes = require('./routes/iouRoutes')
 const authRoutes = require('./routes/authRoutes')
 const path = require('path');
+const PORT = process.env.PORT || 5003
 
 require("dotenv").config({path: './config/.env'});
 
@@ -48,6 +49,6 @@ app.use(logger("dev"));
 app.use('/api/ious', iouRoutes)
 app.use('/api/users', authRoutes)
 
-app.listen(5003, () => {
-  console.log("Server is runing on port 5003");
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server is runing on ${PORT}`);
 });
