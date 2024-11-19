@@ -33,6 +33,10 @@ app.use(
       mongoUrl: process.env.MONGODB_PASSWORD,
       collectionName: "sessions",
     }),
+    cookie: {
+      secure: true,
+      sameSite: 'None',
+    }
   })
 );
 

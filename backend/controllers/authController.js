@@ -17,6 +17,9 @@ const signUpUser = async (req, res) => {
 };
 
 const logInUser = (req, res) => {
+  console.log('Request Method:', req.method);
+  console.log('Request Headers:', req.headers);
+  console.log('Request Body:', req.body);
   res.send({ user: req.user });
 };
 

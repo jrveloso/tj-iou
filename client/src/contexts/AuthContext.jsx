@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const checkAuth = async () => {
           try {
-            const res = await fetch(`https://backend-small-violet-5911.fly.dev/api/users/auth`, {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/auth`, {
               method: 'GET',
               credentials: 'include', // Sends cookies to the backend
             });
@@ -24,7 +24,8 @@ export const AuthProvider = ({ children }) => {
               const data = await res.json();
               // console.log(data)
               setUser(data.user)
-              setIsAdmin(data.user.admin)
+              console.log(data.user.admin)
+              setIsAdmin(!!data.user.admin)
               setIsAuthenticated(!!data.user); // Set to true if user exists
             } else {
               setIsAuthenticated(false)
@@ -47,7 +48,7 @@ export const AuthProvider = ({ children }) => {
 
       const logOut = async () => {
         try {
-          await fetch(`https://backend-small-violet-5911.fly.dev/api/users/logout`, {
+          await fetch(`${import.meta.env.VITE_API_URL}api/users/logout`, {
               method: 'GET',
               credentials: 'include',
           })

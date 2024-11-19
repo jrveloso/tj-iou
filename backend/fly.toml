@@ -1,25 +1,25 @@
-# fly.toml app configuration file generated for backend-small-violet-5911 on 2024-11-16T19:06:34-06:00
+# fly.toml app configuration file generated for backend-falling-sky-7333 on 2024-11-17T20:31:29-06:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'backend-small-violet-5911'
+app = 'backend-falling-sky-7333'
 primary_region = 'ewr'
 
 [build]
+
+[env]
+  MONGODB_PASSWORD = 'mongodb+srv://yoda:tbrtqOA0uPtLiAwn@cluster0.xidtdhg.mongodb.net/iou?retryWrites=true&w=majority&appName=Cluster0'
 
 [http_service]
   internal_port = 3000
   force_https = true
   auto_stop_machines = 'stop'
   auto_start_machines = true
-  min_machines_running = 0
+  min_machines_running = 1
   processes = ['app']
 
 [[vm]]
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
-
-[env]
-MONGODB_PASSWORD = "mongodb+srv://yoda:tbrtqOA0uPtLiAwn@cluster0.xidtdhg.mongodb.net/iou?retryWrites=true&w=majority&appName=Cluster0"

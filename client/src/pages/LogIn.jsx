@@ -10,7 +10,7 @@ const LogIn = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`https://backend-small-violet-5911.fly.dev/api/users/login`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
