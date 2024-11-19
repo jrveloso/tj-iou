@@ -1,18 +1,21 @@
 import { Link, NavLink } from "react-router-dom";
 import { useAppContext } from "../contexts/AppContext";
 import { useAuth } from "../contexts/AuthContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Home = () => {
   const { user } = useAuth();
   const { ious } = useAppContext();
   const [iousRemaining, setIOUsRemaining] = useState(0);
-  if (user) {
-    const iousLeft = ious.filter(
-      (iou) => iou.paid === false && iou.userID === user.username
-    ).length;
-    setIOUsRemaining(iousLeft);
-  }
+
+  useEffect(() => {
+    if (user) {
+      const iousLeft = ious.filter(
+        (iou) => iou.paid === false && iou.userID === user.username
+      ).length;
+      setIOUsRemaining(iousLeft);
+    }
+  }, [ious])
 
   return (
     <div className="hero bg-base-100 h-screen w-screen overflow-hidden">
