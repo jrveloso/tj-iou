@@ -18,7 +18,7 @@ const IOUList = () => {
 
   useEffect(() => {
     const fetchIOUs = async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}api/ious`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/ious`);
       const data = await response.json();
       const unpaid = data.filter(
         (iou) => iou.paid === false && iou.userID === user.username
@@ -79,8 +79,8 @@ const IOUList = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row max-w-screen-2xl min-h-screen">
-      <section className="hidden lg:w-1/4 bg-slate-100 lg:flex lg:flex-col justify-start px-4 pt-4">
+    <div className="flex flex-col lg:flex-row max-w-screen-2xl h-dvh">
+      <section className="hidden lg:w-1/4 bg-slate-100 lg:flex lg:flex-col justify-start px-4 pt-28">
         <h2 className="font-bold text-lg">Submit an IOU</h2>
         <Form
           handleSubmit={handleSubmit}
