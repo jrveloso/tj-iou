@@ -15,18 +15,17 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const checkAuth = async () => {
           try {
-            console.log(import.meta.env.VITE_API_URL)
             const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/auth`, {
               method: 'GET',
-              credentials: 'include', // Sends cookies to the backend
+              credentials: 'include',
             });
     
             if (res.ok) {
               const data = await res.json();
-              // console.log(data)
+              console.log(data)
               setUser(data.user)
               console.log(data.user.admin)
-              setIsAdmin(!!data.user.admin)
+              // setIsAdmin(!!data.user.admin)
               setIsAuthenticated(!!data.user); // Set to true if user exists
             } else {
               setIsAuthenticated(false)
@@ -44,6 +43,7 @@ export const AuthProvider = ({ children }) => {
       const logIn = (userData) => {
         setUser(userData)
         setIsAuthenticated(true)
+        setIsAdmin(userData.admin)
         navigate('/ious')
       }
 

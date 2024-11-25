@@ -88,7 +88,7 @@ const IOUList = () => {
           formArray={formArray}
         />
       </section>
-      <section className="flex flex-col lg:w-3/4 px-4">
+      <section className="flex flex-col lg:w-3/4 px-4 pt-28">
         <h1 className="my-2">{user.firstName}'s IOUs</h1>
         <List
           ious={ious}

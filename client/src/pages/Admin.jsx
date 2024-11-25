@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
 
 const Admin = () => {
   const [ious, setIOUs] = useState([]);
@@ -17,7 +18,7 @@ const Admin = () => {
   console.log(ious);
 
   return (
-    <section className="flex flex-col">
+    <section className="flex flex-col pt-28">
       <h1 className="self-center py-2">Unpaid IOUs</h1>
       <div className="h-dvh overflow-x-auto">
       <table className="table table-pin-rows">
