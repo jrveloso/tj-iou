@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-const Alert = ({ removeAlert, ious }) => {
+const Alert = ({ removeAlert, ious, employeeID, userID }) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       removeAlert();
@@ -10,7 +10,12 @@ const Alert = ({ removeAlert, ious }) => {
   }, [ious]);
 
   return (
-    <div role="alert" className="alert alert-success mt-2">
+    <div
+      role="alert"
+      className={`alert ${
+        employeeID === userID ? "alert-error" : "alert-success"
+      } mt-2`}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="h-6 w-6 shrink-0 stroke-current"
@@ -24,7 +29,11 @@ const Alert = ({ removeAlert, ious }) => {
           d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
         />
       </svg>
-      <span>Your purchase has been confirmed!</span>
+      <span>
+        {employeeID === userID
+          ? "Must have a coworker check you out"
+          : "Your purchase has been confirmed!"}
+      </span>
     </div>
   );
 };

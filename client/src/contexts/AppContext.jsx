@@ -10,7 +10,6 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     const fetchIOUs = async () => {
       try {
-        console.log(import.meta.env.VITE_API_URL)
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/ious`);
         const data = await response.json();
 

@@ -1,4 +1,6 @@
 import Form from "./Form";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 const Popup = ({ type, handleChange, value, handleSubmit }) => {
   const pay = type === "pay";
@@ -7,11 +9,13 @@ const Popup = ({ type, handleChange, value, handleSubmit }) => {
     <>
       <button
         className={
-          pay ? "btn btn-primary w-full lg:w-max" : "btn fixed right-3 bottom-20"
+          pay ? "btn btn-primary text-white fixed bottom-20 w-7/8" : "btn btn-info fixed right-3 bottom-20"
         }
         onClick={() => document.getElementById(payOrSubmit).showModal()}
       >
-        {pay ? "Pay" : "+"}
+        {pay ? "Pay" : (
+          <FontAwesomeIcon icon={faPlus} />
+        )}
       </button>
       <dialog id={payOrSubmit} className="modal">
         <div className="modal-box">

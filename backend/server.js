@@ -7,7 +7,7 @@ const logger = require("morgan");
 const connectDB = require('./config/database')
 const iouRoutes = require('./routes/iouRoutes')
 const authRoutes = require('./routes/authRoutes')
-const PORT = process.env.PORT || 3000
+// const PORT = process.env.PORT || 3000
 
 require("dotenv").config({path: './config/.env'});
 
@@ -17,7 +17,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://clipboardiou.netlify.app",
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
@@ -50,6 +50,6 @@ app.use(logger("dev"));
 app.use('/api/ious', iouRoutes)
 app.use('/api/users', authRoutes)
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is runing on ${PORT}`);
+app.listen(3000, () => {
+  console.log(`Server is runing on `);
 });

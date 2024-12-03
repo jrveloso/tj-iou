@@ -1,13 +1,19 @@
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBars,
+  faClipboard,
+  faLock,
+  faRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = () => {
   const { user } = useAuth();
-  
+
   return (
-    <div className="navbar fixed bg-base-100 z-50 border-solid border-b-1 backdrop-blur-md border-gray-100 flex">
+    <div className="navbar fixed bg-base-100 z-50 border-solid border-b-2 backdrop-blur-md flex h-16">
       {user ? (
-        
         <div className="drawer lg:hidden">
           <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content flex flex-col items-start justify-center">
@@ -15,20 +21,7 @@ const Navbar = () => {
               htmlFor="my-drawer-2"
               className="btn text-xl drawer-button bg-base-100 border-none"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                />
-              </svg>
+              <FontAwesomeIcon icon={faBars} />
             </label>
           </div>
           <div className="drawer-side">
@@ -37,25 +30,29 @@ const Navbar = () => {
               aria-label="close sidebar"
               className="drawer-overlay"
             ></label>
-            <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
-              <li>
-                <NavLink to="/">
-                  <input
-                    id="my-drawer-2"
-                    type="checkbox"
-                    className="drawer-toggle"
-                  />
-                  Home
+            <ul className="menu bg-base-200 text-base-content min-h-full w-80 py-4">
+              <li className="mb-5">
+                <span className="text-2xl">
+                  {user.firstName} {user.lastName}
+                </span>
+              </li>
+              <li className="mb-5">
+                <NavLink className="text-3xl text-primary" to="/ious">
+                  <FontAwesomeIcon icon={faClipboard} className="pr-2" />
+                  IOUs
                 </NavLink>
               </li>
-              <li>
-                <NavLink to="/ious">IOUs</NavLink>
+              <li className="mb-5">
+                <NavLink className="text-3xl text-primary" to="/admin">
+                  <FontAwesomeIcon icon={faLock} className="pr-2" />
+                  Admin
+                </NavLink>
               </li>
-              <li>
-                <NavLink to="/admin">Admin</NavLink>
-              </li>
-              <li>
-                <NavLink to="/logout">Log Out</NavLink>
+              <li className="mb-5">
+                <NavLink className="text-3xl text-primary" to="/logout">
+                  <FontAwesomeIcon icon={faRightFromBracket} className="pr-2" />
+                  Log Out
+                </NavLink>
               </li>
             </ul>
           </div>
@@ -66,22 +63,21 @@ const Navbar = () => {
           IOUs
         </NavLink>
       </div>
-      <div className="flex-none hidden md:block">
-        <ul className="menu menu-horizontal px-1">
-          <li>
-            <NavLink to="/">Home</NavLink>
-          </li>
-          <li>
-            <NavLink to="/ious">IOUs</NavLink>
-          </li>
-          <li>
-            <NavLink to="/admin">Admin</NavLink>
-          </li>
-          <li>
-            <NavLink to="/logout">Log Out</NavLink>
-          </li>
-        </ul>
-      </div>
+      {user ? (
+        <div className="flex-none hidden md:block">
+          <ul className="menu menu-horizontal px-1">
+            <li>
+              <NavLink to="/ious">IOUs</NavLink>
+            </li>
+            <li>
+              <NavLink to="/admin">Admin</NavLink>
+            </li>
+            <li>
+              <NavLink to="/logout">Log Out</NavLink>
+            </li>
+          </ul>
+        </div>
+      ) : null}
     </div>
   );
 };

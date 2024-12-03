@@ -6,6 +6,8 @@ import Popup from "../components/Popup";
 import Form from "../components/Form";
 
 const IOUList = () => {
+  const checkedIOUs = {};
+
   const [form, setForm] = useState({
     sku: { id: 1, type: "number", inputValue: "" },
     name: { id: 2, type: "text", inputValue: "" },
@@ -15,6 +17,9 @@ const IOUList = () => {
   const [userID, setUserId] = useState(user.username);
   const [alert, setAlert] = useState(false);
   const formArray = Object.entries(form);
+  const [checkedItems, setCheckedItems] = useState(checkedIOUs);
+  const [employeeID, setEmployeeID] = useState();
+
 
   useEffect(() => {
     const fetchIOUs = async () => {
@@ -25,6 +30,10 @@ const IOUList = () => {
       );
 
       setIOUs(unpaid);
+
+      for (const iou of ious) {
+        checkedIOUs[iou._id] = false;
+      }
     };
     fetchIOUs();
   }, []);
@@ -51,13 +60,16 @@ const IOUList = () => {
     const name = form.name.inputValue;
     const fullName = `${user.firstName} ${user.lastName}`;
 
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/ious/create`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ date, sku, name, userID, fullName }),
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/ious/create`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ date, sku, name, userID, fullName }),
+      }
+    );
 
     if (response.ok) {
       const newIOU = await response.json();
@@ -74,29 +86,71 @@ const IOUList = () => {
     });
   };
 
+  const handleCheck = (e) => {
+    const { id, checked } = e.target;
+
+    setCheckedItems((prevState) => ({
+      ...prevState,
+      [id]: checked,
+    }));
+  };
+
+  const handlePay = async (e) => {
+    e.preventDefault();
+    if (userID === employeeID) {
+      document.getElementById("pay").close();
+      setAlert(true);
+      return;
+    }
+
+    const paid = Object.keys(checkedItems);
+
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/ious/pay`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ids: paid }),
+    });
+    if (response.ok) {
+      setAlert(true);
+      setIOUs((prevList) => prevList.filter((iou) => !paid.includes(iou._id)));
+    }
+    document.getElementById("pay").close();
+    setEmployeeID("");
+  };
+
   const showAlert = () => {
     setAlert(false);
   };
 
   return (
     <div className="flex flex-col lg:flex-row max-w-screen-2xl h-dvh">
-      <section className="hidden lg:w-1/4 bg-slate-100 lg:flex lg:flex-col justify-start px-4 pt-28">
-        <h2 className="font-bold text-lg">Submit an IOU</h2>
+      <section className="hidden lg:w-1/4 bg-slate-100 lg:flex lg:flex-col justify-start px-4 pt-16">
+        <h2 className="text-xl py-2">Add IOU</h2>
         <Form
           handleSubmit={handleSubmit}
           handleChange={handleChange}
           formArray={formArray}
         />
       </section>
-      <section className="flex flex-col lg:w-3/4 px-4 pt-28">
-        <h1 className="my-2">{user.firstName}'s IOUs</h1>
+      <section className="flex flex-col lg:w-3/4 px-4 pt-16">
+        <h1 className="hidden lg:block my-2">{user.firstName}'s IOUs</h1>
         <List
           ious={ious}
           setIOUs={setIOUs}
           userID={user.username}
           setAlert={setAlert}
+          handleCheck={handleCheck}
+          checkedItems={checkedItems}
         />
         <span className="lg:hidden">
+          <Popup
+            type={"pay"}
+            handleChange={setEmployeeID}
+            value={[employeeID]}
+            handleSubmit={handlePay}
+          />
           <Popup
             type={""}
             handleSubmit={handleSubmit}
@@ -104,7 +158,7 @@ const IOUList = () => {
             value={formArray}
           />
         </span>
-        {alert && <Alert removeAlert={showAlert} ious={ious} />}
+        {alert && <Alert removeAlert={showAlert} ious={ious} employeeID={employeeID} userID={userID} />}
       </section>
     </div>
   );

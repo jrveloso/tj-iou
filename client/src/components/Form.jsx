@@ -18,37 +18,31 @@ const Form = ({ handleSubmit, handleChange, formArray }) => {
           const { id, type, inputValue } = input[1];
 
           return (
-            <div className="pb-2" id={id}>
-              <TextInput name={name} type={type} value={inputValue} handleChange={handleChange} placeholder={createPlaceholder(name)}/>
-              {/* <input
+            <div className="pb-3" id={id}>
+              <TextInput
                 name={name}
                 type={type}
                 value={inputValue}
-                onChange={handleChange}
-                required
+                handleChange={handleChange}
                 placeholder={createPlaceholder(name)}
-                className="input input-bordered w-full max-w-xs"
-              /> */}
+              />
             </div>
           );
         } else {
           return (
             <div className="pb-2" id={i}>
-              <TextInput name={"Employee ID"} type={"number"} value={formArray[0]} handleChange={(e) => handleChange(e.target.value)} placeholder={"Employee ID"}/>
-              {/* <input
-                name="Employee ID"
-                type="number"
+              <TextInput
+                name={"Employee ID"}
+                type={"number"}
                 value={formArray[0]}
-                onChange={(e) => handleChange(e.target.value)}
-                required
-                placeholder="Employee ID"
-                className="input input-bordered w-full max-w-xs"
-              /> */}
+                handleChange={(e) => handleChange(e.target.value)}
+                placeholder={"Employee ID"}
+              />
             </div>
           );
         }
       })}
-      <button type="submit" className="btn btn-primary">
+      <button type="submit" className="btn btn-info btn-primary text-white">
         Submit
       </button>
     </form>
