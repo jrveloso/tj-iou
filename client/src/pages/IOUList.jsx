@@ -4,6 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 import Alert from "../components/Alert";
 import Popup from "../components/Popup";
 import Form from "../components/Form";
+import SearchBar from "../components/SearchBar";
 
 const IOUList = () => {
   const checkedIOUs = {};
@@ -19,7 +20,6 @@ const IOUList = () => {
   const formArray = Object.entries(form);
   const [checkedItems, setCheckedItems] = useState(checkedIOUs);
   const [employeeID, setEmployeeID] = useState();
-
 
   useEffect(() => {
     const fetchIOUs = async () => {
@@ -105,13 +105,16 @@ const IOUList = () => {
 
     const paid = Object.keys(checkedItems);
 
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/ious/pay`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ids: paid }),
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/ious/pay`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ids: paid }),
+      }
+    );
     if (response.ok) {
       setAlert(true);
       setIOUs((prevList) => prevList.filter((iou) => !paid.includes(iou._id)));
@@ -126,7 +129,7 @@ const IOUList = () => {
 
   return (
     <div className="flex flex-col lg:flex-row max-w-screen-2xl h-dvh">
-      <section className="hidden lg:w-1/4 bg-slate-100 lg:flex lg:flex-col justify-start px-4 pt-16">
+      <section className="hidden lg:w-1/4 bg-slate-100 lg:flex lg:flex-col justify-start px-4 py-16">
         <h2 className="text-xl py-2">Add IOU</h2>
         <Form
           handleSubmit={handleSubmit}
@@ -134,8 +137,9 @@ const IOUList = () => {
           formArray={formArray}
         />
       </section>
-      <section className="flex flex-col lg:w-3/4 px-4 pt-16">
+      <section className="flex flex-col lg:w-3/4 px-4 py-16">
         <h1 className="hidden lg:block my-2">{user.firstName}'s IOUs</h1>
+        {/* <SearchBar /> */}
         <List
           ious={ious}
           setIOUs={setIOUs}
@@ -144,21 +148,32 @@ const IOUList = () => {
           handleCheck={handleCheck}
           checkedItems={checkedItems}
         />
-        <span className="lg:hidden">
-          <Popup
-            type={"pay"}
-            handleChange={setEmployeeID}
-            value={[employeeID]}
-            handleSubmit={handlePay}
-          />
-          <Popup
-            type={""}
-            handleSubmit={handleSubmit}
-            handleChange={handleChange}
-            value={formArray}
-          />
+        <span>
+          <span>
+            <Popup
+              type={"pay"}
+              handleChange={setEmployeeID}
+              value={[employeeID]}
+              handleSubmit={handlePay}
+            />
+          </span>
+          <span className="lg:hidden">
+            <Popup
+              type={""}
+              handleSubmit={handleSubmit}
+              handleChange={handleChange}
+              value={formArray}
+            />
+          </span>
         </span>
-        {alert && <Alert removeAlert={showAlert} ious={ious} employeeID={employeeID} userID={userID} />}
+        {alert && (
+          <Alert
+            removeAlert={showAlert}
+            ious={ious}
+            employeeID={employeeID}
+            userID={userID}
+          />
+        )}
       </section>
     </div>
   );
